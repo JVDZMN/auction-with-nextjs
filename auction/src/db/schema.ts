@@ -1,19 +1,15 @@
 import { integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 
-export const bids = pgTable("bb_bids", {
+export const bids = pgTable("bids", {
   id: serial("id").primaryKey(),
-  amount: integer("amount").notNull(),
-  itemId: serial("itemId")
-    .notNull()
-    .references(() => items.id, { onDelete: "cascade" }),
-  userId: text("userId")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  timestamp: timestamp("timestamp", { mode: "date" }).notNull(),
+  //amount: integer("amount").notNull(),
+  //carId: serial("carId").notNull().references(() => cars.id, { onDelete: "cascade" }),
+  //userId: text("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  //timestamp: timestamp("timestamp", { mode: "date" }).notNull(),
 });
 
-export const items = pgTable("bb_item", {
+export const cars = pgTable("cars", {
   id: serial("id").primaryKey(),
   userId: text("userId")
     .notNull()
@@ -24,9 +20,23 @@ export const items = pgTable("bb_item", {
   startingPrice: integer("startingPrice").notNull().default(0),
   bidInterval: integer("bidInterval").notNull().default(100),
   endDate: timestamp("endDate", { mode: "date" }).notNull(),
+
+  //address
+  streetAddress1: text("streetAddress1").notNull(),
+  streetAddress2: text("streetAddress2").notNull(),
+  city: text("city").notNull(),
+  postalCode: text("postalCode").notNull(),
+  //fuel
+  fuel: text("fuel").notNull(),
+   
+  brand: text("brand").notNull(),
+  model: text("model").notNull(),
+  year: integer("year").notNull(),
+  color: text("color").notNull(),
+ 
 });
 
-export const users = pgTable("bb_user", {
+export const users = pgTable("users", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
@@ -35,3 +45,5 @@ export const users = pgTable("bb_user", {
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
 });
+
+
